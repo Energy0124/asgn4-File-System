@@ -92,3 +92,6 @@ fabric.properties
 /vfs
 /testMatrix.txt
 /cmake-build-debug/
+/testcases_20161124.tar.gz
+testcases/time.txt
+

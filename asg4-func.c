@@ -128,7 +128,7 @@ int *readText(char *filename, int *number) {
 }
 
 int *readBinary(char *path, int *size) {
-    FILE *file = fopen(path, "r");
+    FILE *file = fopen(path, "rb");
     setbuf(file, readBuffer);
     struct stat st;
     stat(path, &st);
@@ -288,18 +288,73 @@ int diff(char *path, int version1, int version2, int row, int column) {
 
     int dimension = floorSqrt(matrixElementCount);
     int index = getIndexByRowColumn(row, column, dimension);
-    getIndexByRowColumn(row, column, dimension);
+    FILE *baseFile = fopen(getVFSName(path, 1), "rb");
+    setbuf(baseFile, readBuffer);
+    int eb, e1 = -1, e2 = -1;
+    int d1s, d2s;
+    fseek(baseFile, index * sizeof(int), SEEK_SET);
+    fread(&eb, sizeof(int), 1, baseFile);
+    fclose(baseFile);
     //baseMatrix = readBinary(getVFSName(path,1), &diffSize);
     if (version1 != 1 && version2 != 1) {
 
-    } else if (version1 == 1 && version2 == 1) {
+        diff1 = readBinary(getVFSName(path, version1), &d1s);
+        int i;
+        for (i = 0; i < d1s; i += 2) {
+            if (diff1[i] == index) {
+                e1 = diff1[i + 1];
+            }
+        }
+        if (e1 == -1) e1 = eb;
+        diff2 = readBinary(getVFSName(path, version2), &d2s);
+        for (i = 0; i < d2s; i += 2) {
+            if (diff2[i] == index) {
+                e2 = diff2[i + 1];
+            }
+        }
+        if (e2 == -1) e2 = eb;
+        if (e1 == e2) {
+            printf("1\n");
+        } else {
+            printf("0\n");
+        }
 
+    } else if (version1 == 1 && version2 == 1) {
+        printf("1\n");
     } else if (version1 == 1) {
+        e1 = eb;
+        diff2 = readBinary(getVFSName(path, version2), &d2s);
+        int i;
+        for (i = 0; i < d2s; i += 2) {
+            if (diff2[i] == index) {
+                e2 = diff2[i + 1];
+            }
+        }
+        if (e2 == -1) e2 = eb;
+        if (e1 == e2) {
+            printf("1\n");
+        } else {
+            printf("0\n");
+        }
 
     } else if (version2 == 1) {
-
+        e2 = eb;
+        diff1 = readBinary(getVFSName(path, version1), &d1s);
+        int i;
+        for (i = 0; i < d1s; i += 2) {
+            if (diff1[i] == index) {
+                e1 = diff1[i + 1];
+            }
+        }
+        if (e1 == -1) e1 = eb;
+        if (e1 == e2) {
+            printf("1\n");
+        } else {
+            printf("0\n");
+        }
     }
     // writeMeta(path,versionCount, matrixElementCount);
+
     return 0;
 }
 

@@ -1,11 +1,11 @@
 ./vfs add ./testcases/case2/matrix2.txt
 sed -i s/9/1/g ./testcases/case2/matrix2.txt
+cp ./testcases/case2/matrix2.txt ./testcases/case2/expected.txt
 ./vfs add ./testcases/case2/matrix2.txt
 sed -i s/1/9/g ./testcases/case2/matrix2.txt
 ./vfs add ./testcases/case2/matrix2.txt
-cp ./testcases/case2/matrix2.txt ./testcases/case2/expected.txt
 sed -i s/77/1/g ./testcases/case2/matrix2.txt	
 ./vfs add ./testcases/case2/matrix2.txt
-./vfs retreat ./testcases/case2/matrix2.txt 2
+./vfs retrieve ./testcases/case2/matrix2.txt 2
 cp ./testcases/case2/matrix2.txt ./testcases/case2/output_case2.txt
 rm -rf ./.vfsdata/*

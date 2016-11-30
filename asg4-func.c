@@ -8,10 +8,12 @@
 #define ADD_SUC "Add success!"
 #define RETRIEVE_SUC "Retrieve success!"
 
-
-
+int versionCount=0; //number of version
+char readBuffer[BUFSIZ+1];
 int  add(char *path){
-	
+    FILE *input = fopen(path, "r");
+	setbuf(input,readBuffer);
+
 	return 0;
 }
 

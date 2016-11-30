@@ -1,0 +1,5 @@
+./vfs diff ./testcases/case24/matrix24.txt 3 6 4 6
+./vfs diff ./testcases/case24/matrix24.txt 1 6 1 1
+./vfs calculate ./testcases/case24/matrix24.txt 3 6 -r 4 6
+./vfs diff ./testcases/case24/matrix24.txt 3 6 4 6
+./vfs calculate ./testcases/case24/matrix24.txt 3 6 -tt 4 6

@@ -1,0 +1,7 @@
+./vfs add ./testcases/case1/matrix1.txt
+cp ./testcases/case1/matrix1.txt ./testcases/case1/expected.txt
+sed -i s/1/2/g ./testcases/case1/matrix1.txt
+./vfs retrieve ./testcases/case1/matrix1.txt 1
+cp ./testcases/case1/matrix1.txt ./testcases/case1/output_case1.txt
+sed -i s/2/1/g ./testcases/case1/matrix1.txt
+rm -rf .vfsdata/*

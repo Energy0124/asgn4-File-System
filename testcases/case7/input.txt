@@ -1,0 +1,24 @@
+./vfs add ./testcases/case7/matrix7_1.txt
+./vfs add ./testcases/case7/matrix7_2.txt
+./vfs add ./testcases/case7/matrix7_3.txt
+./vfs add ./testcases/case7/matrix7_4.txt
+./vfs add ./testcases/case7/matrix7_5.txt
+./vfs add ./testcases/case7/matrix7.txt
+./vfs add ./testcases/case7/matrix7_10.txt
+./vfs add ./testcases/case7/matrix7_1.txt
+./vfs add ./testcases/case7/matrix7_2.txt
+./vfs add ./testcases/case7/matrix7_3.txt
+sed -i s/0/1/g ./testcases/case7/matrix7_4.txt
+./vfs add ./testcases/case7/matrix7_4.txt
+sed -i s/0/1/g ./testcases/case7/matrix7_4.txt
+./vfs add ./testcases/case7/matrix7_5.txt
+./vfs retrieve ./testcases/case7/matrix7_2.txt 1
+./vfs retrieve ./testcases/case7/matrix7_34.txt 5
+./vfs retrieve ./testcases/case7/matrix7_5.txt 5
+./vfs add ./testcases/case7/matrix7_1.txt
+./vfs add ./testcases/case7/matrix7_2.txt
+./vfs add ./testcases/case7/matrix7_3.txt
+./vfs add ./testcases/case7/matrix7_4.txt
+./vfs add ./testcases/case7/matrix7_5.txt
+./vfs retrieve ./testcases/case7/matrix7_3.txt 1
+rm -rf ./.vfsdata/*

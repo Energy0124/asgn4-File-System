@@ -1,0 +1,21 @@
+./vfs add ./testcases/case30/matrix30.txt
+sed -i s/1/2/g ./testcases/case30/matrix30.txt
+./vfs add ./testcases/case30/matrix30.txt
+./vfs calculate ./testcases/case30/matrix30.txt 1 2 -a 800 590
+./vfs calculate ./testcases/case30/matrix30.txt 1 2 -a 299 938
+./vfs calculate ./testcases/case30/matrix30.txt 2 1 -r 899 988
+./vfs calculate ./testcases/case30/matrix30.txt 1 2 -c 1 1
+./vfs calculate ./testcases/case30/matrix30.txt 2 1 -a 1 1000
+sed -i s/5/8/g ./testcases/case30/matrix30.txt
+./vfs add ./testcases/case30/matrix30.txt
+./vfs calculate ./testcases/case30/matrix30.txt 1 2 -a 1 600
+./vfs retrieve ./testcases/case30/matrix30.txt 3
+./vfs add ./testcases/case30/matrix30.txt
+./vfs calculate ./testcases/case30/matrix30.txt 3 4 -a 70 18
+./vfs calculate ./testcases/case30/matrix30.txt 6 2 -a 160 3
+./vfs calculate ./testcases/case30/matrix30.txt 3 2 -a 30 1
+./vfs calculate ./testcases/case30/matrix30.txt 4 6 -a 8 109
+./vfs calculate ./testcases/case30/matrix30.txt 3 1 -a 8 1
+sed -i s/2/1/g ./testcases/case30/matrix30.txt
+./vfs retrieve ./testcases/case30/matrix30.txt 1
+rm -rf ./.vfsdata/*

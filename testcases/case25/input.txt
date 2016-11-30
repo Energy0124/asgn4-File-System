@@ -1,0 +1,18 @@
+./vfs add ./testcases/case25/matrix25.txt
+./vfs add ./testcases/case25/matrix25.txt
+./vfs diff ./testcases/case25/matrix25.txt 1 2 6 9
+sed -i s/8/9/g ./testcases/case25/matrix25.txt 
+./vfs add  ./testcases/case25/matrix25.txt
+./vfs diff  ./testcases/case25/matrix25.txt 2 3 5 7
+./vfs calculate ./testcases/case25/matrix25.txt 2 3 -r 8 9
+sed -i s/7/5/g ./testcases/case25/matrix25.txt
+./vfs retrieve ./testcases/case25/matrix25.txt 3
+./vfs add ./testcases/case25/matrix25.txt
+./vfs calculate ./testcases/case25/matrix25.txt 2 3 -c 8 9
+./vfs calculate ./testcases/case25/matrix25.txt 1 3 -g 5 8
+./vfs calculate  ./testcases/case25/matrix25.txt 2 3 -a 90 3
+sed -i s/9/8/g ./testcases/case25/matrix25.txt
+./vfs add   ./testcases/case25/matrix25.txt
+./vfs diff  ./testcases/case25/matrix25.txt 4 3 8 9
+./vfs diff  ./testcases/case25/matrix25.txt 6 3 6 2
+rm -rf ./.vfsdata/*  

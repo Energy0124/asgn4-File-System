@@ -1,0 +1,8 @@
+./vfs add ./testcases/case13/matrix13.txt
+./vfs add ./testcases/case13/matrix13.txt
+./vfs diff ./testcases/case13/matrix13.txt 1 2 5 7
+./vfs diff ./testcases/case13/matrix13.txt 1 5 1 3
+./vfs diff ./testcases/case13/matrix13.txt 1 2 20 1
+./vfs diff ./testcases/case13/matrix13.txt 1 2 4 33
+./vfs diff ./testcases/case13/matrix13.txt 1 2 3 5
+rm -rf ./.vfsdata/*

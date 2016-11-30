@@ -1,0 +1,13 @@
+./vfs add ./testcases/case14/matrix14.txt
+sed -i s/1/2/g ./testcases/case14/matrix14.txt
+./vfs add ./testcases/case14/matrix14.txt
+./vfs add ./testcases/case14/matrix14.txt
+sed -i s/2/3/g ./testcases/case14/matrix14.txt
+./vfs add ./testcases/case14/matrix14.txt
+sed -i s/3/1/g ./testcases/case14/matrix14.txt
+./vfs add ./testcases/case14/matrix14.txt
+./vfs diff ./testcases/case14/matrix14.txt 1 3 6 6
+./vfs diff ./testcases/case14/matrix14.txt 2 3 5 7
+./vfs retrieve ./testcases/case14/matrix14.txt 1
+./vfs diff ./testcases/case14/matrix14.txt 4 1 8 8
+rm -rf ./.vfsdata/*

@@ -1,0 +1,51 @@
+./vfs add ./testcases/case4/matrix4.txt
+cp ./testcases/case4/matrix4.txt ./testcases/case4/expected.txt
+sed -i s/9/6/g ./testcases/case4/matrix4.txt
+./vfs add ./testcases/case4/matrix4.txt
+./vfs retrieve ./testcases/case4/matrix4.txt 1
+sed -i s/7/3/g ./testcases/case4/matrix4.txt
+./vfs add ./testcases/case4/matrix4.txt
+./vfs retrieve ./testcases/case4/matrix4.txt 2
+sed -i s/4/8/g ./testcases/case4/matrix4.txt
+./vfs add ./testcases/case4/matrix4.txt
+./vfs retrieve ./testcases/case4/matrix4.txt 1
+sed -i s/22/6/g ./testcases/case4/matrix4.txt
+./vfs add ./testcases/case4/matrix4.txt
+./vfs retrieve ./testcases/case4/matrix4.txt 3
+sed -i s/88/1/g ./testcases/case4/matrix4.txt
+./vfs add ./testcases/case4/matrix4.txt
+./vfs retrieve ./testcases/case4/matrix4.txt 1
+sed -i s/90/2/g ./testcases/case4/matrix4.txt
+./vfs add ./testcases/case4/matrix4.txt
+./vfs retrieve ./testcases/case4/matrix4.txt 1
+sed -i s/7/6/g ./testcases/case4/matrix4.txt
+./vfs add ./testcases/case4/matrix4.txt
+./vfs retrieve ./testcases/case4/matrix4.txt 5
+sed -i s/56/6/g ./testcases/case4/matrix4.txt
+./vfs add ./testcases/case4/matrix4.txt
+./vfs retrieve ./testcases/case4/matrix4.txt 1
+sed -i s/9/65/g ./testcases/case4/matrix4.txt
+./vfs add ./testcases/case4/matrix4.txt
+./vfs retrieve ./testcases/case4/matrix4.txt 1
+sed -i s/0/6/g ./testcases/case4/matrix4.txt
+./vfs add ./testcases/case4/matrix4.txt
+./vfs retrieve ./testcases/case4/matrix4.txt 1
+sed -i s/9/0/g ./testcases/case4/matrix4.txt
+./vfs add ./testcases/case4/matrix4.txt
+./vfs retrieve ./testcases/case4/matrix4.txt 1
+sed -i s/3/6/g ./testcases/case4/matrix4.txt
+./vfs add ./testcases/case4/matrix4.txt
+./vfs retrieve ./testcases/case4/matrix4.txt 2
+sed -i s/9/3/g ./testcases/case4/matrix4.txt
+./vfs add ./testcases/case4/matrix4.txt
+./vfs retrieve ./testcases/case4/matrix4.txt 1
+sed -i s/7/6/g ./testcases/case4/matrix4.txt
+./vfs add ./testcases/case4/matrix4.txt
+./vfs retrieve ./testcases/case4/matrix4.txt 1
+sed -i s/6/9/g ./testcases/case4/matrix4.txt	
+./vfs add ./testcases/case4/matrix4.txt
+./vfs retrieve ./testcases/case4/matrix4.txt 2
+./vfs retrieve ./testcases/case4/matrix4.txt 1
+./vfs add ./testcases/case4/matrix4.txt 
+rm -rf .vfsdata/*
+cp ./testcases/case4/matrix4.txt ./testcases/case4/output_case4.txt

@@ -1,0 +1,15 @@
+./vfs retreat ./testcases/case9/matrix9.txt 1
+./vfs add ./testcases/case9/matrix9_1.txt
+./vfs add ./testcases/case9/matrix9.txt 
+cp ./testcases/case9/matrix9.txt  ./testcases/case9/expected.txt
+sed -i s/6/9/g ./testcases/case9/matrix9_1.txt
+./vfs add ./testcases/case9/matrix9_2.txt
+./vfs add ./testcases/case9/matrix9.txt
+./vfs add ./testcases/case9/matrix9_1.txt
+sed -i s/9/6/g ./testcases/case9/matrix9.txt
+./vfs add ./testcases/case9/matrix9.txt
+sed -i s/6/9/g ./testcases/case9/matrix9.txt
+./vfs retrieve ./testcases/case9/matrix9.txt 1
+./vfs retrieve ./testcases/case9/matrix9.txt 1
+cp ./testcases/case9/matrix9.txt  ./testcases/case9/output_case9.txt
+rm -rf ./.vfsdata/*

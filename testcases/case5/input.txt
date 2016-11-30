@@ -1,0 +1,5 @@
+./vfs add ./testcases/case5/matrix1111.txt
+./vfs add ./testcases/case5/matrix5.txt
+./vfs add ./testcases/case5/matrix123.txt
+./vfs add ./testcases/case5/matrix5.txt
+./vfs retrieve ./testcases/case5/matrix5.txt 1

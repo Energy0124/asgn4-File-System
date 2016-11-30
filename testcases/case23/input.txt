@@ -1,0 +1,11 @@
+./vfs add ./testcases/case23/matrix23_1.txt
+sed -i s/1/3/g ./testcases/case23/matrix23_1.txt
+./vfs add ./testcases/case23/matrix23_1.txt
+sed -i s/3/1/g ./testcases/case23/matrix23_1.txt
+./vfs add ./testcases/case23/matrix23_2.txt
+./vfs calculate ./testcases/case23/matrix23_1.txt 1 2 -a 6 6
+./vfs add ./testcases/case23/matrix23_1.txt
+./vfs calculate ./testcases/case23/matrix23_1.txt 3 2 -a 8 8
+./vfs add ./testcases/case23/matrix23_2.txt
+./vfs calculate ./testcases/case23/matrix23_2.txt 1 2 -r 9 6
+rm -rf ./.vfsdata/*

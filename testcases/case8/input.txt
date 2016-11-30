@@ -1,0 +1,11 @@
+./vfs add ./testcases/case8/matrix8.txt
+sed -i s/1/2/g  ./testcases/case8/matrix8.txt
+./vfs add  ./testcases/case8/matrix8.txt
+sed -i s/2/1/g ./testcases/case8/matrix8.txt
+./vfs add ./testcases/case8/matrix8.txt
+./vfs retrieve ./testcases/case8/matrix8.txt 2
+./vfs retrieve ./testcases/case8/matrix8.txt 1
+cp  ./testcases/case8/matrix8.txt  ./testcases/case8/expected.txt
+./vfs retrieve ./testcases/case8/matrix8.txt 10
+cp  ./testcases/case8/matrix8.txt  ./testcases/case8/output_case8.txt
+rm -rf ./.vfsdata/*

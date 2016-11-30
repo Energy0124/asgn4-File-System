@@ -1,0 +1,8 @@
+./vfs retrieve ./testcases/case6/matrix6.txt 1
+./vfs add ./testcases/case6/matrix6.txt
+./vfs add ./testcases/case6/matrix6.txt	
+./vfs add ./testcases/case6/matrix6.txt
+./vfs retrieve ./testcases/case6/matrix6.txt 100
+./vfs retrieve ./testcases/case6/matrix6.txt 1
+./vfs retrieve ./testcases/case6/matrix77.txt 2
+rm -rf ./.vfsdata/*

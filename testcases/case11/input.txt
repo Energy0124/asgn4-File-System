@@ -1,0 +1,10 @@
+./vfs add ./testcases/case11/matrix11_1.txt
+./vfs add ./testcases/case11/matrix11_2.txt
+sed -i s/4/5/g ./testcases/case11/matrix11_2.txt
+./vfs add ./testcases/case11/matrix11_2.txt
+sed -i s/5/4/g ./testcases/case11/matrix11_2.txt
+./vfs diff ./testcases/case11/matrix11_2.txt 1 2 6 7
+./vfs add ./testcases/case11/matrix11_3.txt
+./vfs add ./testcases/case11/matrix11_2.txt
+./vfs diff ./testcases/case11/matrix11_2.txt 2 3 5 5
+rm -rf ./.vfsdata/*

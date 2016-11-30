@@ -1,0 +1,8 @@
+./vfs calculate ./testcases/case19/matrix19.txt 1 2 -r 3 5
+./vfs add ./testcases/case19/matrix19.txt 
+./vfs calculate ./testcases/case19/matrix19.txt 1 2 -r 3 5
+./vfs add ./testcases/case19/matrix19.txt
+./vfs calculate ./testcases/case19/matrix19.txt 1 2 -r 3 5
+./vfs calculate ./testcases/case19/matrix19.txt 2 5 -r 6 7
+./vfs calculate ./testcases/case19/matrix190.txt 2 5 -r 6 7
+rm -rf ./.vfsdata/*

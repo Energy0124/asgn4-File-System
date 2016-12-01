@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <string.h>
+#include <math.h>
 
 
 #define ADDERROR  "Add error!\n"
@@ -295,7 +296,9 @@ int retrieve(char *path, int version) {
 
 int diff(char *path, int version1, int version2, int row, int column) {
     readMeta(path, &versionCount, &matrixElementCount);
-    int dimension = floorSqrt(matrixElementCount);
+
+    int dimension = (int) (sqrt(matrixElementCount) + 1e-9);
+
     if (version1 > versionCount || version2 > versionCount || !fileExist(path)) {
         printf(DIFFERROR);
         return -1;
@@ -379,7 +382,7 @@ int diff(char *path, int version1, int version2, int row, int column) {
 
 int calculate(char *path, int version1, int version2, char *par, int row, int column) {
     readMeta(path, &versionCount, &matrixElementCount);
-    int dimension = floorSqrt(matrixElementCount);
+    int dimension = (int) (sqrt(matrixElementCount) + 1e-9);
     if (version1 > versionCount || version2 > versionCount || !fileExist(path)) {
         printf(CALERROR);
         return -1;

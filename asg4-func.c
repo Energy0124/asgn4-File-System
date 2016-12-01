@@ -73,6 +73,13 @@ int floorSqrt(int x) {
     return ans;
 }
 
+
+int getIndexByRowColumn(int row, int column, int dimension) {
+    row -= 1;
+    column -= 1;
+    return (row * dimension + column);
+}
+
 int fileExist(char *filename) {
     struct stat buffer;
     return (stat(filename, &buffer) == 0);
@@ -232,6 +239,7 @@ int add(char *path) {
         fflush(output);
         fclose(output);
     }
+    printf(ADD_SUC);
     writeMeta(path, versionCount, matrixElementCount);
 
     return 0;
@@ -358,15 +366,62 @@ int diff(char *path, int version1, int version2, int row, int column) {
     return 0;
 }
 
-int getIndexByRowColumn(int row, int column, int dimension) {
-    row -= 1;
-    column -= 1;
-    return (row * dimension + column);
-}
 
 int calculate(char *path, int version1, int version2, char *par, int row, int column) {
     readMeta(path, &versionCount, &matrixElementCount);
-    int diffSize;
+    int dimension = floorSqrt(matrixElementCount);
+    if (version1 > versionCount || version2 > versionCount) {
+        printf(CALERROR);
+        return -1;
+    }
+    if (row > dimension || column > dimension || row < 1 || column < 1) {
+        printf(CALERROR);
+        return -1;
+    }
+
+    if (strcmp(par, "-r") == 0) {
+        int rowStart = getIndexByRowColumn(row, 1, dimension);
+        int rowEnd = getIndexByRowColumn(row, dimension, dimension);
+        int *baseRowElement = malloc(sizeof(int) * dimension + 10);
+        int *rowElement1 = malloc(sizeof(int) * dimension + 10);
+        int *rowElement2 = malloc(sizeof(int) * dimension + 10);
+        FILE *baseFile = fopen(getVFSName(path, 1), "rb");
+        setbuf(baseFile, readBuffer);
+        int d1s, d2s;
+        fseek(baseFile, rowStart * sizeof(int), SEEK_SET);
+        fread((void *) baseRowElement, dimension * sizeof(int), 1, baseFile);
+        memcpy(rowElement1, baseRowElement, sizeof(int) * dimension);
+        memcpy(rowElement2, baseRowElement, sizeof(int) * dimension);
+        fclose(baseFile);
+        diff1 = readBinary(getVFSName(path, version1), &d1s);
+        int i;
+        for (i = 0; i < d1s; i += 2) {
+            if (diff1[i] >= rowStart || diff1[i] <= rowEnd) {
+                rowElement1[diff1[i] - rowStart] = diff1[i + 1];
+            }
+        }
+        diff2 = readBinary(getVFSName(path, version2), &d2s);
+        for (i = 0; i < d2s; i += 2) {
+            if (diff2[i] >= rowStart || diff2[i] <= rowEnd) {
+                rowElement2[diff2[i] - rowStart] = diff2[i + 1];
+            }
+        }
+        int sumDiff = 0;
+        for (i = 0; i < dimension; ++i) {
+            sumDiff += rowElement1[i] - rowElement2[i];
+        }
+        printf("%d\n", sumDiff);
+
+    } else if (strcmp(par, "-c") == 0) {
+
+    } else if (strcmp(par, "-a") == 0) {
+        int index = getIndexByRowColumn(row, column, dimension);
+    } else {
+        printf(CALERROR);
+        return -1;
+    }
+
+
     //baseMatrix = readBinary(getVFSName(path,1), &diffSize);
 
     //writeMeta(versionCount, matrixElementCount);

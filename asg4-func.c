@@ -186,6 +186,7 @@ int add(char *path) {
     readMeta(path, &versionCount, &matrixElementCount);
     if (!fileExist(path)) {
         printf(ADDERROR);
+        return 0;
     }
 
 
@@ -253,7 +254,7 @@ int add(char *path) {
 int retrieve(char *path, int version) {
     readMeta(path, &versionCount, &matrixElementCount);
     //printf("version:%d, versionCount:%d\n", version, versionCount);
-    if (version > versionCount) {
+    if (version > versionCount || !fileExist(path)) {
 
         printf(RETRIEVEERROR);
         return -1;
@@ -281,7 +282,8 @@ int retrieve(char *path, int version) {
     }
     int j;
     for (j = 0; j < matrixElementCount; ++j) {
-        j == 0 ? fprintf(output, "%d", matrix1[j]) : fprintf(output, " %d", matrix1[j]);
+//        j == 0 ? fprintf(output, "%d", matrix1[j]) : fprintf(output, " %d", matrix1[j]);
+        fprintf(output, "%d ", matrix1[j]);
     }
     fflush(output);
     fclose(output);
@@ -293,7 +295,7 @@ int retrieve(char *path, int version) {
 
 int diff(char *path, int version1, int version2, int row, int column) {
     readMeta(path, &versionCount, &matrixElementCount);
-    if (version1 > versionCount || version2 > versionCount) {
+    if (version1 > versionCount || version2 > versionCount || !fileExist(path)) {
         printf(DIFFERROR);
         return -1;
     }
@@ -326,13 +328,13 @@ int diff(char *path, int version1, int version2, int row, int column) {
         }
         if (e2 == -1) e2 = eb;
         if (e1 == e2) {
-            printf("1\n");
-        } else {
             printf("0\n");
+        } else {
+            printf("1\n");
         }
 
     } else if (version1 == 1 && version2 == 1) {
-        printf("1\n");
+        printf("0\n");
     } else if (version1 == 1) {
         e1 = eb;
         diff2 = readBinary(getVFSName(path, version2), &d2s);
@@ -344,9 +346,9 @@ int diff(char *path, int version1, int version2, int row, int column) {
         }
         if (e2 == -1) e2 = eb;
         if (e1 == e2) {
-            printf("1\n");
-        } else {
             printf("0\n");
+        } else {
+            printf("1\n");
         }
 
     } else if (version2 == 1) {
@@ -360,9 +362,9 @@ int diff(char *path, int version1, int version2, int row, int column) {
         }
         if (e1 == -1) e1 = eb;
         if (e1 == e2) {
-            printf("1\n");
-        } else {
             printf("0\n");
+        } else {
+            printf("1\n");
         }
     }
     // writeMeta(path,versionCount, matrixElementCount);
@@ -374,7 +376,7 @@ int diff(char *path, int version1, int version2, int row, int column) {
 int calculate(char *path, int version1, int version2, char *par, int row, int column) {
     readMeta(path, &versionCount, &matrixElementCount);
     int dimension = floorSqrt(matrixElementCount);
-    if (version1 > versionCount || version2 > versionCount) {
+    if (version1 > versionCount || version2 > versionCount || !fileExist(path)) {
         printf(CALERROR);
         return -1;
     }

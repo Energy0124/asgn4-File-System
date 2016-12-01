@@ -301,7 +301,7 @@ int diff(char *path, int version1, int version2, int row, int column) {
         return -1;
     }
     if (row > dimension || column > dimension || row < 1 || column < 1) {
-        printf(CALERROR);
+        printf(DIFFERROR);
         return -1;
     }
 

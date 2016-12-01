@@ -75,6 +75,10 @@ int floorSqrt(int x) {
 
 
 int getIndexByRowColumn(int row, int column, int dimension) {
+    if (row < 1) row = 1;
+    if (row > dimension) row = dimension;
+    if (column < 1) column = 1;
+    if (column > dimension)column = dimension;
     row -= 1;
     column -= 1;
     return (row * dimension + column);
@@ -378,6 +382,11 @@ int calculate(char *path, int version1, int version2, char *par, int row, int co
         printf(CALERROR);
         return -1;
     }
+    if (version1 == version2) {
+        int sumDiff = 0;
+        printf("%d\n", sumDiff);
+        return 0;
+    }
 
     if (strcmp(par, "-r") == 0) {
         int rowStart = getIndexByRowColumn(row, 1, dimension);
@@ -393,17 +402,21 @@ int calculate(char *path, int version1, int version2, char *par, int row, int co
         memcpy(rowElement1, baseRowElement, sizeof(int) * dimension);
         memcpy(rowElement2, baseRowElement, sizeof(int) * dimension);
         fclose(baseFile);
-        diff1 = readBinary(getVFSName(path, version1), &d1s);
         int i;
-        for (i = 0; i < d1s; i += 2) {
-            if (diff1[i] >= rowStart || diff1[i] <= rowEnd) {
-                rowElement1[diff1[i] - rowStart] = diff1[i + 1];
+        if (version1 != 1) {
+            diff1 = readBinary(getVFSName(path, version1), &d1s);
+            for (i = 0; i < d1s; i += 2) {
+                if (diff1[i] >= rowStart && diff1[i] <= rowEnd) {
+                    rowElement1[diff1[i] - rowStart] = diff1[i + 1];
+                }
             }
         }
-        diff2 = readBinary(getVFSName(path, version2), &d2s);
-        for (i = 0; i < d2s; i += 2) {
-            if (diff2[i] >= rowStart || diff2[i] <= rowEnd) {
-                rowElement2[diff2[i] - rowStart] = diff2[i + 1];
+        if (version2 != 1) {
+            diff2 = readBinary(getVFSName(path, version2), &d2s);
+            for (i = 0; i < d2s; i += 2) {
+                if (diff2[i] >= rowStart && diff2[i] <= rowEnd) {
+                    rowElement2[diff2[i] - rowStart] = diff2[i + 1];
+                }
             }
         }
         int sumDiff = 0;
@@ -430,16 +443,20 @@ int calculate(char *path, int version1, int version2, char *par, int row, int co
         memcpy(columnElement1, baseColumnElement, sizeof(int) * dimension);
         memcpy(columnElement2, baseColumnElement, sizeof(int) * dimension);
         fclose(baseFile);
-        diff1 = readBinary(getVFSName(path, version1), &d1s);
-        for (i = 0; i < d1s; i += 2) {
-            if (diff1[i] % dimension == columnStart) {
-                columnElement1[diff1[i] / dimension] = diff1[i + 1];
+        if (version1 != 1) {
+            diff1 = readBinary(getVFSName(path, version1), &d1s);
+            for (i = 0; i < d1s; i += 2) {
+                if (diff1[i] % dimension == columnStart) {
+                    columnElement1[diff1[i] / dimension] = diff1[i + 1];
+                }
             }
         }
-        diff2 = readBinary(getVFSName(path, version2), &d2s);
-        for (i = 0; i < d2s; i += 2) {
-            if (diff2[i] % dimension == columnStart) {
-                columnElement2[diff2[i] / dimension] = diff2[i + 1];
+        if (version2 != 1) {
+            diff2 = readBinary(getVFSName(path, version2), &d2s);
+            for (i = 0; i < d2s; i += 2) {
+                if (diff2[i] % dimension == columnStart) {
+                    columnElement2[diff2[i] / dimension] = diff2[i + 1];
+                }
             }
         }
         int sumDiff = 0;
@@ -448,7 +465,55 @@ int calculate(char *path, int version1, int version2, char *par, int row, int co
         }
         printf("%d\n", sumDiff);
     } else if (strcmp(par, "-a") == 0) {
-        int index = getIndexByRowColumn(row, column, dimension);
+        // int index = getIndexByRowColumn(row, column, dimension);
+        int sumDiff = 0;
+        int d1s, d2s;
+        FILE *baseFile = fopen(getVFSName(path, 1), "rb");
+        setbuf(baseFile, readBuffer);
+        if (version1 != 1) {
+            diff1 = readBinary(getVFSName(path, version1), &d1s);
+        }
+        if (version2 != 1) {
+            diff2 = readBinary(getVFSName(path, version2), &d2s);
+        }
+        int j = 0;
+        for (j = -1; j < 2; ++j) {
+            if (row + j < 0) continue;
+            if (row + j > dimension) continue;
+
+            int rowStart = getIndexByRowColumn(row + j, column - 1, dimension);
+            int rowEnd = getIndexByRowColumn(row + j, column + 1, dimension);
+            int *baseRowElement = malloc(sizeof(int) * 3);
+            int *rowElement1 = malloc(sizeof(int) * 3);
+            int *rowElement2 = malloc(sizeof(int) * 3);
+            fseek(baseFile, rowStart * sizeof(int), SEEK_SET);
+            fread((void *) baseRowElement, (rowEnd - rowStart + 1) * sizeof(int), 1, baseFile);
+            memcpy(rowElement1, baseRowElement, sizeof(int) * 3);
+            memcpy(rowElement2, baseRowElement, sizeof(int) * 3);
+            fclose(baseFile);
+
+            int i;
+            if (version1 != 1) {
+                for (i = 0; i < d1s; i += 2) {
+                    if (diff1[i] >= rowStart && diff1[i] <= rowEnd) {
+                        rowElement1[diff1[i] - rowStart] = diff1[i + 1];
+                    }
+                }
+            }
+
+            if (version2 != 1) {
+                for (i = 0; i < d2s; i += 2) {
+                    if (diff2[i] >= rowStart && diff2[i] <= rowEnd) {
+                        rowElement2[diff2[i] - rowStart] = diff2[i + 1];
+                    }
+                }
+            }
+
+            for (i = 0; i < (rowEnd - rowStart + 1); ++i) {
+                sumDiff += rowElement1[i] - rowElement2[i];
+            }
+        }
+        printf("%d\n", sumDiff);
     } else {
         printf(CALERROR);
         return -1;

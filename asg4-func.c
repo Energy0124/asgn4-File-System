@@ -295,12 +295,16 @@ int retrieve(char *path, int version) {
 
 int diff(char *path, int version1, int version2, int row, int column) {
     readMeta(path, &versionCount, &matrixElementCount);
+    int dimension = floorSqrt(matrixElementCount);
     if (version1 > versionCount || version2 > versionCount || !fileExist(path)) {
         printf(DIFFERROR);
         return -1;
     }
+    if (row > dimension || column > dimension || row < 1 || column < 1) {
+        printf(CALERROR);
+        return -1;
+    }
 
-    int dimension = floorSqrt(matrixElementCount);
     int index = getIndexByRowColumn(row, column, dimension);
     FILE *baseFile = fopen(getVFSName(path, 1), "rb");
     setbuf(baseFile, readBuffer);

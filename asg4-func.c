@@ -124,7 +124,7 @@ int *readText(char *filename, int *number) {
     while (count < size) {
         if (count > size - 9) {
             size *= 2;
-            array = realloc(array, (size_t) size);
+            array = realloc(array, size * sizeof(int));
         }
         int n;
         if (fscanf(file, "%d", &n) != 1) {

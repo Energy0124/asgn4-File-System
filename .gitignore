@@ -95,3 +95,7 @@ fabric.properties
 /testcases_20161124.tar.gz
 testcases/time.txt
 
+
+.vfsdata/
+asgn4_File_System.exe.stackdump
+testMatrix2.txt

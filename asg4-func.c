@@ -413,7 +413,40 @@ int calculate(char *path, int version1, int version2, char *par, int row, int co
         printf("%d\n", sumDiff);
 
     } else if (strcmp(par, "-c") == 0) {
-
+        int columnStart = getIndexByRowColumn(1, column, dimension);
+        int columnEnd = getIndexByRowColumn(dimension, column, dimension);
+        int *baseColumnElement = malloc(sizeof(int) * dimension + 10);
+        int *columnElement1 = malloc(sizeof(int) * dimension + 10);
+        int *columnElement2 = malloc(sizeof(int) * dimension + 10);
+        FILE *baseFile = fopen(getVFSName(path, 1), "rb");
+        setbuf(baseFile, readBuffer);
+        int d1s, d2s;
+        fseek(baseFile, columnStart * sizeof(int), SEEK_SET);
+        int i;
+        for (i = 0; i < dimension; i += 1) {
+            fread((void *) &baseColumnElement[i], sizeof(int), 1, baseFile);
+            fseek(baseFile, (dimension - 1) * sizeof(int), SEEK_CUR);
+        }
+        memcpy(columnElement1, baseColumnElement, sizeof(int) * dimension);
+        memcpy(columnElement2, baseColumnElement, sizeof(int) * dimension);
+        fclose(baseFile);
+        diff1 = readBinary(getVFSName(path, version1), &d1s);
+        for (i = 0; i < d1s; i += 2) {
+            if (diff1[i] % dimension == columnStart) {
+                columnElement1[diff1[i] / dimension] = diff1[i + 1];
+            }
+        }
+        diff2 = readBinary(getVFSName(path, version2), &d2s);
+        for (i = 0; i < d2s; i += 2) {
+            if (diff2[i] % dimension == columnStart) {
+                columnElement2[diff2[i] / dimension] = diff2[i + 1];
+            }
+        }
+        int sumDiff = 0;
+        for (i = 0; i < dimension; ++i) {
+            sumDiff += columnElement1[i] - columnElement2[i];
+        }
+        printf("%d\n", sumDiff);
     } else if (strcmp(par, "-a") == 0) {
         int index = getIndexByRowColumn(row, column, dimension);
     } else {

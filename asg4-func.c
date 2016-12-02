@@ -487,19 +487,20 @@ int calculate(char *path, int version1, int version2, char *par, int row, int co
         }
         int j = 0;
         for (j = -1; j < 2; ++j) {
-            if (row + j < 0) continue;
+            if (row + j < 1) continue;
             if (row + j > dimension) continue;
 
             int rowStart = getIndexByRowColumn(row + j, column - 1, dimension);
             int rowEnd = getIndexByRowColumn(row + j, column + 1, dimension);
-            int *baseRowElement = malloc(sizeof(int) * 3);
-            int *rowElement1 = malloc(sizeof(int) * 3);
-            int *rowElement2 = malloc(sizeof(int) * 3);
-            fseek(baseFile, rowStart * sizeof(int), SEEK_SET);
-            fread((void *) baseRowElement, (rowEnd - rowStart + 1) * sizeof(int), 1, baseFile);
-            memcpy(rowElement1, baseRowElement, sizeof(int) * 3);
-            memcpy(rowElement2, baseRowElement, sizeof(int) * 3);
-            fclose(baseFile);
+            int rowElementCount = rowEnd - rowStart + 1;
+            int *baseRowElement = malloc(sizeof(int) * rowElementCount);
+            int *rowElement1 = malloc(sizeof(int) * rowElementCount);
+            int *rowElement2 = malloc(sizeof(int) * rowElementCount);
+            int seek = fseek(baseFile, rowStart * sizeof(int), SEEK_SET);
+            fread((void *) baseRowElement, rowElementCount * sizeof(int), 1, baseFile);
+            memcpy(rowElement1, baseRowElement, sizeof(int) * rowElementCount);
+            memcpy(rowElement2, baseRowElement, sizeof(int) * rowElementCount);
+
 
             int i;
             if (version1 != 1) {
@@ -518,10 +519,12 @@ int calculate(char *path, int version1, int version2, char *par, int row, int co
                 }
             }
 
-            for (i = 0; i < (rowEnd - rowStart + 1); ++i) {
+            for (i = 0; i < rowElementCount; ++i) {
                 sumDiff += rowElement1[i] - rowElement2[i];
+//                printf("%d:%d, %d - %d , += %d\n",rowStart, rowEnd,rowElement1[i],rowElement2[i], sumDiff );
             }
         }
+        fclose(baseFile);
         printf("%d\n", sumDiff);
     } else {
         printf(CALERROR);
